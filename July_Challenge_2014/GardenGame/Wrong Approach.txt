@@ -1,0 +1,108 @@
+/*unsigned long long int GCD(unsigned long long int a,unsigned long long int b)
+{
+		unsigned long long int r;
+        while(b != 0)
+        {
+                r = a % b;
+                a = b;
+                b = r;
+        }
+        return a;
+}
+unsigned long  long int LCM(unsigned  long long int a,unsigned long long int b)
+{
+  unsigned long long  int gcd = GCD(a,b);
+  return ((unsigned long long)(a*b))/(unsigned long long)gcd;
+}
+void numberOfWhistles(const long int arr[],const long int n)
+{
+	unsigned long long int count = 1, jumps;
+	long int j;
+	for(long int i = 1; i <= n; i++)
+	{
+		jumps = 1;
+		j = i - 1;
+		while(1)
+		{
+			if(arr[j] != i)
+			{
+				j = arr[j] - 1;
+				++jumps;
+			}
+			else
+				break;
+		}
+		if((jumps % count))
+			count =(unsigned long long)LCM(count, jumps);
+		else
+			count =(unsigned long long)max(count, jumps);
+	}
+	count = count % 1000000007;
+	cout<<(unsigned long long)count<<endl;
+}
+/*void swap (long int *a,long int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+void randomize (long int arr[],long int n )
+{
+    // Use a different seed value so that we don't get same
+    // result each time we run this program
+    srand ( time(NULL) );
+ 
+    // Start from the last element and swap one by one. We don't
+    // need to run for the first element that's why i > 0
+    for (int i = n-1; i > 0; i--)
+    {
+        // Pick a random index from 0 to i
+        int j = rand() % (i+1);
+ 
+        // Swap arr[i] with the element at random index
+        swap(&arr[i], &arr[j]);
+    }
+}*/
+
+unsigned long long int calcLCMInArray(long int numArray[], long int len)
+{
+	long  int countOnes = 0;
+	bool iFactor = true;
+	unsigned long long int  i, lcmOfNumbers = 1;
+	long int j, maxInArray = numArray[0];
+	if (len == 1)
+		return numArray[0];
+	for (long int  c = 0; c < len; c++)
+	{
+		if (numArray[c] > maxInArray)
+			maxInArray  = numArray[c];
+	}
+	for (i = 2; i <= maxInArray; i++)
+	{ //cout<<i<<" ";
+		countOnes = 0;
+		iFactor = true;
+		while (iFactor)
+		{
+			iFactor = false;
+			for (j = 0; j < len; j++) 
+			{
+				if ((numArray[j] > 1) && (numArray[j] % i == 0)) 
+				{
+					numArray[j] = numArray[j] / i;
+					iFactor = true;
+				}
+				if (numArray[j] == 1) 
+				{
+					numArray[j] = -1;
+					countOnes += 1;
+				}
+			}
+			if (iFactor)
+				lcmOfNumbers *= i;
+		}
+		if (countOnes == len) 
+			break;
+	}
+	cout<<lcmOfNumbers<<endl;
+	return lcmOfNumbers;
+}
